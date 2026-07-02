@@ -1,9 +1,9 @@
 #include "pch.h"
-#include "MeshLoader.h"
+#include "ObjLoader.h"
 
 namespace rcore {
 
-	std::vector<std::string> split(std::string const& text, char sep) {
+	static std::vector<std::string> split(std::string const& text, char sep) {
 		std::vector<std::string> out;
 		std::stringstream textPart;
 
@@ -25,7 +25,7 @@ namespace rcore {
 		return out;
 	}
 
-	Mesh MeshLoader::load(std::string const& file) {
+	Mesh ObjLoader::readMesh(std::string const& path) const {
 		bool vertexCountSet = false, indexCountSet = false;
 
 		std::vector<DirectX::XMFLOAT4> verts;
@@ -34,10 +34,10 @@ namespace rcore {
 		std::vector<std::array<int, 9>> tris;
 
 		std::ifstream fin;
-		fin.open(file);
+		fin.open(path);
 
 		if (fin.fail()) {
-			RCORE_LOG(ERR, "Failed to open file: " + file);
+			RCORE_LOG(ERR, "Failed to open file: " + path);
 			return {};
 		}
 
@@ -128,9 +128,6 @@ namespace rcore {
 
 		Mesh mesh;
 
-		mesh.vertexCount = (int)tris.size() * 3;
-		mesh.indexCount = (int)tris.size() * 3;
-
 		constexpr int indexOffset = 1;
 
 		for (int i = 0; i < tris.size(); i++) {
@@ -153,14 +150,17 @@ namespace rcore {
 			mesh.vertices.push_back(vert1);
 			mesh.uvs.push_back(tex1);
 			mesh.normals.push_back(norm1);
+			mesh.indices.push_back(modelIndex);
 
 			mesh.vertices.push_back(vert2);
 			mesh.uvs.push_back(tex2);
 			mesh.normals.push_back(norm2);
+			mesh.indices.push_back(modelIndex + 1);
 
 			mesh.vertices.push_back(vert3);
 			mesh.uvs.push_back(tex3);
 			mesh.normals.push_back(norm3);
+			mesh.indices.push_back(modelIndex + 2);
 		}
 
 		fin.close();
@@ -168,7 +168,7 @@ namespace rcore {
 		return mesh;
 	}
 
-	MeshLoader::ModelDataType MeshLoader::strToMDT(std::string const& type) {
+	ObjLoader::ModelDataType ObjLoader::strToMDT(std::string const& type) const {
 		if (type == "v") return ModelDataType::vertex;
 		if (type == "vt") return ModelDataType::texture;
 		if (type == "vn") return ModelDataType::normal;
