@@ -3,7 +3,7 @@
 
 namespace rcore {
 
-  const char* Logger::logFile = "data/log.txt";
+  const char* Logger::logFile = "log.txt";
 
   std::string Logger::levelToString(LogLevel level) {
     switch (level) {
