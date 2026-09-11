@@ -34,7 +34,7 @@ namespace rcore {
     int m_height = 400;
     std::optional<int> m_windowPosX{};
     std::optional<int> m_windowPosY{};
-    DWORD m_styles = WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
+    DWORD m_styles = WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_THICKFRAME | WS_MAXIMIZEBOX;
     DWORD m_extendedStyles = WS_EX_APPWINDOW;
   };
 

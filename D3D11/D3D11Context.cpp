@@ -4,7 +4,7 @@
 
 namespace rcore {
 
-	D3D11Context::D3D11Context(std::shared_ptr<Window> const& window, D3DContextDesc const& descriptor) : m_valid{ false } {
+	D3D11Context::D3D11Context(std::shared_ptr<Window> const& window, D3DContextDesc const& descriptor) : m_valid{ false }, m_descriptor{ descriptor } {
 		if (
 			createSwapChain(window->getSize(), window->getHandle(), descriptor.targetFps()) &&
 			createRenderTargetView() &&
@@ -60,6 +60,32 @@ namespace rcore {
 		}
 
 		m_swapChain->Present(1, 0);
+	}
+
+
+	void D3D11Context::resize(int width, int height) {
+		m_renderTargetView.Reset();
+		m_msaaRenderTargetView.Reset();
+		m_msaaRenderTargetTexture.Reset();
+		m_depthStencilView.Reset();
+		m_depthStencilBuffer.Reset();
+
+		D3D11_TEXTURE2D_DESC depthBufferDesc = m_descriptor.depthBufferDesc();
+		depthBufferDesc.Width = width;
+		depthBufferDesc.Height = height;
+
+		m_descriptor.depthBufferDesc(depthBufferDesc);
+
+		HRESULT result = m_swapChain->ResizeBuffers(0, width, height, DXGI_FORMAT_UNKNOWN, 0);
+
+		if (
+			FAILED(result) ||
+			!createRenderTargetView() ||
+			!createDepthBuffer(m_descriptor.depthBufferDesc(), m_descriptor.depthStencilDesc(), m_descriptor.depthStencilViewDesc()) ||
+			!createViewport(std::make_pair(width, height))
+		) {
+			m_valid = false;
+		}
 	}
 
 	bool D3D11Context::createSwapChain(std::pair<int, int> windowSize, HWND windowHandle, int targetFps) {

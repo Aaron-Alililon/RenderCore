@@ -79,15 +79,15 @@ namespace rcore {
 
 	LRESULT CALLBACK WindowsInterface::handleMessage(HWND hwnd, UINT umsg, WPARAM wparam, LPARAM lparam) {
 		switch (umsg) {
-		case WM_DESTROY:
-			m_windowClosing = true;
-			return 0;
+			case WM_DESTROY:
+				m_windowClosing = true;
+				return 0;
 
-		case WM_CLOSE: // X pressed -> Let windows handle window closing sequence -> Windows throws WM_DESTROY -> Engine loop catches closing flag and destroys object
-			return DefWindowProc(hwnd, umsg, wparam, lparam);
+			case WM_CLOSE: // X pressed -> Let windows handle window closing sequence -> Windows throws WM_DESTROY -> Engine loop catches closing flag and destroys object
+				return DefWindowProc(hwnd, umsg, wparam, lparam);
 
-		default:
-			return DefWindowProc(hwnd, umsg, wparam, lparam);
+			default:
+				return DefWindowProc(hwnd, umsg, wparam, lparam);
 		}
 	}
 

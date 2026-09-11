@@ -19,6 +19,7 @@ namespace rcore {
     void bindStates();
     void resolveToBackBuffer();
     void presentSwapChain() const;
+    void resize(int width, int height);
 
   private:
     bool createSwapChain(std::pair<int, int> windowSize, HWND windowHandle, int targetFps);
@@ -29,6 +30,8 @@ namespace rcore {
 
   private:
     bool m_valid;
+
+    D3DContextDesc m_descriptor;
 
     Microsoft::WRL::ComPtr<IDXGISwapChain> m_swapChain;
     Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_renderTargetView;

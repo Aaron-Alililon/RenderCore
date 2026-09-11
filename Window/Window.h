@@ -41,6 +41,9 @@ namespace rcore {
     std::weak_ptr<T> getLayer();
 
   private:
+    void resize(int width, int height);
+
+  private:
     WindowsInterface m_winInterface;
     std::unique_ptr<D3D11Context> m_context;
     std::vector<std::shared_ptr<Layer>> m_layers;

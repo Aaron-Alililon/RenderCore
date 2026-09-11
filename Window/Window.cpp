@@ -83,6 +83,16 @@ namespace rcore {
       if (!layer->onEvent(hwnd, umsg, wparam, lparam)) break;
     }
 
+    switch (umsg) {
+      case WM_SIZE:
+      {
+        int width = static_cast<int>(LOWORD(lparam));
+        int height = static_cast<int>(HIWORD(lparam));
+        if (width > 0 && height > 0) resize(width, height);
+        break;
+      }
+    }
+
     return m_winInterface.handleMessage(hwnd, umsg, wparam, lparam);
   }
 
@@ -122,4 +132,17 @@ namespace rcore {
     return m_context->m_depthStencilView.Get();
   }
 
+  void Window::resize(int width, int height) {
+    if (width == m_width && height == m_height) return;
+
+    m_width = width;
+    m_height = height;
+
+    m_context->resize(width, height);
+
+    startFrame();
+    update();
+    render();
+    endFrame();
+  }
 }
