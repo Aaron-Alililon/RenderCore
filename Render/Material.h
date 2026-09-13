@@ -10,6 +10,7 @@ namespace rcore {
   template<typename TProperties>
   class Material : public MaterialBase {
   public:
+    Material() = default;
     Material(Shader const& shader, uint8_t shaderStages = ShaderStage::Pixel);
 
   public:
@@ -23,7 +24,7 @@ namespace rcore {
     void activateShader() const override;
     void activate() const override;
 
-    bool valid() const override;
+    bool isValid() const override;
 
   private:
     bool validateShaderStages() const;

@@ -20,6 +20,7 @@ namespace rcore {
     void resolveToBackBuffer();
     void presentSwapChain() const;
     void resize(int width, int height);
+    bool isValid() const;
 
   private:
     bool createSwapChain(std::pair<int, int> windowSize, HWND windowHandle, int targetFps);

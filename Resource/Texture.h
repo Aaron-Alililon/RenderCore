@@ -11,6 +11,8 @@ namespace rcore {
 
   class Texture {
   public:
+    Texture() = default;
+
     template<std::derived_from<ITextureLoader> TLoader>
     Texture(LoaderTag<TLoader>, std::string const& path, D3D11_TEXTURE2D_DESC const& textureDescriptor, D3D11_SHADER_RESOURCE_VIEW_DESC const& resourceViewDescriptor, UINT width = 0, UINT height = 0);
 
@@ -18,6 +20,7 @@ namespace rcore {
     ID3D11ShaderResourceView* getTextureView() const;
     UINT getWidth() const;
     UINT getHeight() const;
+    bool isValid() const;
 
   private:
     template<std::derived_from<ITextureLoader> TLoader>

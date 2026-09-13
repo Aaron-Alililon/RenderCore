@@ -11,7 +11,7 @@ namespace rcore {
 
 	void RasterizerState::bind() const {
 		if (!m_valid) {
-			RCORE_LOG(WARN, "Tried to bind invalid rasterizer state");
+			RCORE_LOG(WARN, "Tried accessing invalid rasterizer state");
 			return;
 		}
 

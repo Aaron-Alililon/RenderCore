@@ -10,12 +10,14 @@ namespace rcore {
   template<typename TData>
   class DBuffer {
   public:
+    DBuffer() = default;
     DBuffer(int srvSlot, uint8_t shaderStages);
     virtual ~DBuffer() = default;
 
   public:
     virtual void setData(std::span<TData const> data);
     virtual bool uploadBuffer();
+    bool isValid() const;
 
   private:
     virtual bool createBuffer(UINT capacity);

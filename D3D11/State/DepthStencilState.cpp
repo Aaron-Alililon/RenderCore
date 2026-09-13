@@ -11,7 +11,7 @@ namespace rcore {
 
 	void DepthStencilState::bind() const {
 		if (!m_valid) {
-			RCORE_LOG(WARN, "Tried to bind invalid depth stencil state");
+			RCORE_LOG(WARN, "Tried accessing invalid depth stencil state");
 			return;
 		}
 

@@ -19,6 +19,7 @@ namespace rcore {
     };
 
   public:
+    LightBuffer();
     LightBuffer(int srvSlot, int numLightsBufferSlot, uint8_t shaderStages = ShaderStage::Pixel);
 
   public:

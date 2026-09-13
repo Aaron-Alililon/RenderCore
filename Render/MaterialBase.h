@@ -13,7 +13,7 @@ namespace rcore {
     virtual void activateSamplers() const = 0;
     virtual void activateShader() const = 0;
     virtual void activate() const = 0;
-    virtual bool valid() const = 0;
+    virtual bool isValid() const = 0;
   };
 
 }

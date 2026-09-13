@@ -22,7 +22,7 @@ namespace rcore {
   template<typename TData>
   bool DBuffer<TData>::uploadBuffer() {
     if (!m_valid) {
-      RCORE_LOG(WARN, "Tried uploading invalid dynamic buffer");
+      RCORE_LOG(WARN, "Tried accessing invalid dynamic buffer");
       return false;
     }
 
@@ -42,6 +42,11 @@ namespace rcore {
     if (m_shaderStages & ShaderStage::Pixel) D3D11Device::get().rawContext()->PSSetShaderResources(m_srvSlot, 1, m_srv.GetAddressOf());
 
     return true;
+  }
+
+  template<typename TData>
+  bool DBuffer<TData>::isValid() const {
+    return m_valid;
   }
 
   template<typename TData>

@@ -8,10 +8,12 @@ namespace rcore {
 
   class Sampler {
   public:
+    Sampler() = default;
     Sampler(D3D11_SAMPLER_DESC const& descriptor);
 
   public:
     ID3D11SamplerState* getSamplerState() const;
+    bool isValid() const;
 
   private:
     bool loadSampler(D3D11_SAMPLER_DESC const& descriptor);

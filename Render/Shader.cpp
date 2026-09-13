@@ -10,7 +10,7 @@ namespace rcore {
 
 	void Shader::activate() const {
 		if (!m_valid) {
-			RCORE_LOG(ERR, "Tried activation uninitialized or faulty shader");
+			RCORE_LOG(WARN, "Tried accessing invalid shader");
 			return;
 		}
 
@@ -21,14 +21,24 @@ namespace rcore {
 	}
 
 	ID3D11VertexShader* Shader::getVertexShader() const {
+		if (!m_valid) {
+			RCORE_LOG(WARN, "Tried accessing invalid shader");
+			return nullptr;
+		}
+
 		return m_vertexShader.Get();
 	}
 
 	ID3D11PixelShader* Shader::getPixelShader() const {
+		if (!m_valid) {
+			RCORE_LOG(WARN, "Tried accessing invalid shader");
+			return nullptr;
+		}
+
 		return m_pixelShader.Get();
 	}
 
-	bool Shader::valid() const {
+	bool Shader::isValid() const {
 		return m_valid;
 	}
 

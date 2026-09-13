@@ -3,6 +3,8 @@
 
 namespace rcore {
 
+  MatrixBuffer::MatrixBuffer() : CBuffer{ } {}
+
   MatrixBuffer::MatrixBuffer(int bufferSlot, uint8_t shaderStages) : CBuffer{ bufferSlot, shaderStages } {}
 
   void MatrixBuffer::setWorldMatrix(DirectX::XMMATRIX const& worldMatrix) {
@@ -18,6 +20,11 @@ namespace rcore {
   }
 
   bool MatrixBuffer::uploadBuffer() const {
+    if (!m_valid) {
+      RCORE_LOG(WARN, "Tried accessing invalid matrix buffer");
+      return false;
+    }
+
     HRESULT result;
 
     D3D11_MAPPED_SUBRESOURCE mappedResource;

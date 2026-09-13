@@ -9,7 +9,7 @@ namespace rcore {
   public:
     virtual ~IVertexBuffer() = default;
     virtual UINT bind() const = 0;
-    virtual bool valid() const = 0;
+    virtual bool isValid() const = 0;
   };
 
 }

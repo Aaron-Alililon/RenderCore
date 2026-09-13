@@ -10,6 +10,11 @@ namespace rcore {
   }
 
   void RenderTarget::clearRTV(float r, float g, float b, float a) const {
+    if (!m_valid) {
+      RCORE_LOG(WARN, "Tried accessing invalid render target");
+      return;
+    }
+
     float clearCol[] = { r, g, b, a };
     D3D11Device::get().rawContext()->ClearRenderTargetView(m_rtv.Get(), clearCol);
   }

@@ -5,9 +5,9 @@ namespace rcore {
 
   Model::Model(std::shared_ptr<MaterialBase> const& material, std::shared_ptr<IVertexBuffer> const& vertexBuffer) : m_material{ material }, m_vertexBuffer{ vertexBuffer } {
     if (m_material &&
-        m_material->valid() &&
+        m_material->isValid() &&
         m_vertexBuffer &&
-        m_vertexBuffer->valid()
+        m_vertexBuffer->isValid()
     ) {
       m_valid = true;
     }
@@ -15,7 +15,7 @@ namespace rcore {
 
   void Model::drawIndexed(MatrixBuffer& matrixBuffer, bool activateMaterial) {
     if (!m_valid) {
-      RCORE_LOG(WARN, "Tried drawing invalid model");
+      RCORE_LOG(WARN, "Tried accessing invalid model");
       return;
     }
 
@@ -27,7 +27,7 @@ namespace rcore {
 
   void Model::drawIndexed(bool activateMaterial) {
     if (!m_valid) {
-      RCORE_LOG(WARN, "Tried drawing invalid model");
+      RCORE_LOG(WARN, "Tried accessing invalid model");
       return;
     }
 
@@ -84,6 +84,10 @@ namespace rcore {
 
   void Model::setScale(DirectX::XMFLOAT3 scale) {
     m_transform.scale = scale;
+  }
+
+  bool Model::isValid() const {
+    return m_valid;
   }
 
 }

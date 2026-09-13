@@ -15,6 +15,7 @@ namespace rcore {
 
   class MatrixBuffer : public CBuffer<MatrixBufferType> {
   public:
+    MatrixBuffer();
     MatrixBuffer(int bufferSlot, uint8_t shaderStages = ShaderStage::Vertex);
 
   public:

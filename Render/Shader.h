@@ -7,13 +7,14 @@ namespace rcore {
 
 	class Shader {
 	public:
+		Shader() = default;
 		Shader(std::wstring vertexFile, std::wstring pixelFile, std::vector<D3D11_INPUT_ELEMENT_DESC> const& inputDescription);
 
 	public:
 		void activate() const;
 		ID3D11VertexShader* getVertexShader() const;
 		ID3D11PixelShader* getPixelShader() const;
-		bool valid() const;
+		bool isValid() const;
 
 	private:
 		bool compileAndCreate(std::vector<D3D11_INPUT_ELEMENT_DESC> const& inputDescription);

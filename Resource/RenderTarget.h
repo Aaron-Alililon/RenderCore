@@ -7,6 +7,7 @@ namespace rcore {
 
   class RenderTarget {
   public:
+    RenderTarget() = default;
     RenderTarget(D3D11_TEXTURE2D_DESC const& textureDescriptor);
 
   public:

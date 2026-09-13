@@ -10,7 +10,16 @@ namespace rcore {
   }
 
   ID3D11SamplerState* Sampler::getSamplerState() const {
+    if (!m_valid) {
+      RCORE_LOG(WARN, "Tried accessing invalid sampler");
+      return nullptr;
+    }
+
     return m_samplerState.Get();
+  }
+
+  bool Sampler::isValid() const {
+    return m_valid;
   }
 
   bool Sampler::loadSampler(D3D11_SAMPLER_DESC const& descriptor) {

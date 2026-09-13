@@ -21,7 +21,7 @@ namespace rcore {
 
 	void D3D11Context::activate() {
 		if (!m_valid) {
-			RCORE_LOG(WARN, "Tried activating invalid context");
+			RCORE_LOG(WARN, "Tried accessing invalid context");
 			return;
 		}
 
@@ -31,7 +31,7 @@ namespace rcore {
 
 	void D3D11Context::bindStates() {
 		if (!m_valid) {
-			RCORE_LOG(WARN, "Tried binding states of invalid context");
+			RCORE_LOG(WARN, "Tried accessing invalid context");
 			return;
 		}
 
@@ -41,7 +41,7 @@ namespace rcore {
 
 	void D3D11Context::resolveToBackBuffer() {
 		if (!m_valid) {
-			RCORE_LOG(WARN, "Tried resolving to backbuffer of invalid context");
+			RCORE_LOG(WARN, "Tried accessing invalid context");
 			return;
 		}
 
@@ -55,7 +55,7 @@ namespace rcore {
 
 	void D3D11Context::presentSwapChain() const {
 		if (!m_valid) {
-			RCORE_LOG(WARN, "Tried presenting swap chain of invalid context");
+			RCORE_LOG(WARN, "Tried accessing invalid context");
 			return;
 		}
 
@@ -64,6 +64,11 @@ namespace rcore {
 
 
 	void D3D11Context::resize(int width, int height) {
+		if (!m_valid) {
+			RCORE_LOG(WARN, "Tried accessing invalid context");
+			return;
+		}
+
 		m_renderTargetView.Reset();
 		m_msaaRenderTargetView.Reset();
 		m_msaaRenderTargetTexture.Reset();
@@ -77,15 +82,23 @@ namespace rcore {
 		m_descriptor.depthBufferDesc(depthBufferDesc);
 
 		HRESULT result = m_swapChain->ResizeBuffers(0, width, height, DXGI_FORMAT_UNKNOWN, 0);
+		if (FAILED(result)) {
+			RCORE_LOG(WARN, "An error occured trying to resize a D3D11 context");
+			m_valid = false;
+			return;
+		}
 
 		if (
-			FAILED(result) ||
 			!createRenderTargetView() ||
 			!createDepthBuffer(m_descriptor.depthBufferDesc(), m_descriptor.depthStencilDesc(), m_descriptor.depthStencilViewDesc()) ||
 			!createViewport(std::make_pair(width, height))
 		) {
 			m_valid = false;
 		}
+	}
+
+	bool D3D11Context::isValid() const {
+		return m_valid;
 	}
 
 	bool D3D11Context::createSwapChain(std::pair<int, int> windowSize, HWND windowHandle, int targetFps) {

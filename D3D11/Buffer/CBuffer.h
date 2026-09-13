@@ -10,12 +10,14 @@ namespace rcore {
   template<typename TBuffer>
   class CBuffer {
   public:
+    CBuffer() = default;
     CBuffer(int bufferSlot, uint8_t shaderStages);
     virtual ~CBuffer() = default;
 
   public:
     virtual void setData(TBuffer const& data);
     virtual bool uploadBuffer() const;
+    bool isValid() const;
 
   private:
     virtual bool createBuffer();

@@ -26,7 +26,7 @@ namespace rcore {
   template<typename TVertex>
   UINT StaticIndexedVertexBuffer<TVertex>::bind() const {
     if (!m_valid) {
-      RCORE_LOG(ERR, "Tried binding invalid SIVB");
+      RCORE_LOG(WARN, "Tried accessing invalid SIV buffer");
       return 0;
     }
 
@@ -40,7 +40,7 @@ namespace rcore {
   }
 
   template<typename TVertex>
-  bool StaticIndexedVertexBuffer<TVertex>::valid() const {
+  bool StaticIndexedVertexBuffer<TVertex>::isValid() const {
     return m_valid;
   }
 

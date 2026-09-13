@@ -11,6 +11,7 @@ namespace rcore {
 
   class Model {
   public:
+    Model() = default;
     Model(std::shared_ptr<MaterialBase> const& material, std::shared_ptr<IVertexBuffer> const& vertexBuffer);
 
   public:
@@ -31,6 +32,8 @@ namespace rcore {
     DirectX::XMFLOAT3 getScale() const;
     void setScale(float x, float y, float z);
     void setScale(DirectX::XMFLOAT3 scale);
+
+    bool isValid() const;
 
   private:
     bool m_valid = false;

@@ -9,7 +9,7 @@ namespace rcore {
 
   template<typename TProperties>
   Material<TProperties>::Material(Shader const& shader, uint8_t shaderStages) : m_shader{ shader }, m_shaderStages{ shaderStages } {
-    if (m_shader.valid() &&
+    if (m_shader.isValid() &&
         createBuffer()
     ) {
       m_valid = true;
@@ -18,6 +18,11 @@ namespace rcore {
 
   template<typename TProperties>
   bool Material<TProperties>::uploadProperties(TProperties const& properties, std::optional<UINT> startSlot) {
+    if (!m_valid) {
+      RCORE_LOG(WARN, "Tried accessing invalid material");
+      return false;
+    }
+
     HRESULT result;
 
     D3D11_MAPPED_SUBRESOURCE mappedResource;
@@ -39,18 +44,33 @@ namespace rcore {
 
   template<typename TProperties>
   void Material<TProperties>::setTextures(std::span<ID3D11ShaderResourceView*> const& textureViews, std::optional<UINT> startSlot) {
+    if (!m_valid) {
+      RCORE_LOG(WARN, "Tried accessing invalid material");
+      return;
+    }
+
     m_textureViews.assign(textureViews.begin(), textureViews.end());
     m_texturesSlot = startSlot.value_or(m_texturesSlot);
   }
 
   template<typename TProperties>
   void Material<TProperties>::setSamplers(std::span<ID3D11SamplerState*> const& samplerViews, std::optional<UINT> startSlot) {
+    if (!m_valid) {
+      RCORE_LOG(WARN, "Tried accessing invalid material");
+      return;
+    }
+
     m_samplerViews.assign(samplerViews.begin(), samplerViews.end());
     m_samplersSlot = startSlot.value_or(m_samplersSlot);
   }
 
   template<typename TProperties>
   void Material<TProperties>::activateProperties() const {
+    if (!m_valid) {
+      RCORE_LOG(WARN, "Tried accessing invalid material");
+      return;
+    }
+
     if (!validateShaderStages()) return;
     if (!m_propertiesBuffer) return;
     if (m_shaderStages & ShaderStage::Vertex) D3D11Device::get().rawContext()->VSSetConstantBuffers(m_propertiesSlot, 1, m_propertiesBuffer.GetAddressOf());
@@ -59,6 +79,11 @@ namespace rcore {
 
   template<typename TProperties>
   void Material<TProperties>::activateTextures() const {
+    if (!m_valid) {
+      RCORE_LOG(WARN, "Tried accessing invalid material");
+      return;
+    }
+
     if (!validateShaderStages()) return;
     if (m_textureViews.size() == 0) return;
     if (m_shaderStages & ShaderStage::Vertex) D3D11Device::get().rawContext()->VSSetShaderResources(m_texturesSlot, static_cast<UINT>(m_textureViews.size()), m_textureViews.data());
@@ -67,6 +92,11 @@ namespace rcore {
 
   template<typename TProperties>
   void Material<TProperties>::activateSamplers() const {
+    if (!m_valid) {
+      RCORE_LOG(WARN, "Tried accessing invalid material");
+      return;
+    }
+
     if (!validateShaderStages()) return;
     if (m_samplerViews.size() == 0) return;
     if (m_shaderStages & ShaderStage::Vertex) D3D11Device::get().rawContext()->VSSetSamplers(m_samplersSlot, static_cast<UINT>(m_samplerViews.size()), m_samplerViews.data());
@@ -75,12 +105,22 @@ namespace rcore {
 
   template<typename TProperties>
   void Material<TProperties>::activateShader() const {
+    if (!m_valid) {
+      RCORE_LOG(WARN, "Tried accessing invalid material");
+      return;
+    }
+
     if (!validateShaderStages()) return;
     m_shader.activate();
   }
 
   template<typename TProperties>
   void Material<TProperties>::activate() const {
+    if (!m_valid) {
+      RCORE_LOG(WARN, "Tried accessing invalid material");
+      return;
+    }
+
     if (!validateShaderStages()) return;
     activateProperties();
     activateTextures();
@@ -89,7 +129,7 @@ namespace rcore {
   }
 
   template<typename TProperties>
-  bool Material<TProperties>::valid() const {
+  bool Material<TProperties>::isValid() const {
     return m_valid;
   }
 

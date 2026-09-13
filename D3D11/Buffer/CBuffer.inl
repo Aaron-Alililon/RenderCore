@@ -20,7 +20,7 @@ namespace rcore {
   template<typename TBuffer>
   bool CBuffer<TBuffer>::uploadBuffer() const {
     if (!m_valid) {
-      RCORE_LOG(WARN, "Tried uploading invalid constant buffer");
+      RCORE_LOG(WARN, "Tried accesing invalid constant buffer");
       return false;
     }
 
@@ -41,6 +41,11 @@ namespace rcore {
     if (m_shaderStages & ShaderStage::Pixel) D3D11Device::get().rawContext()->PSSetConstantBuffers(m_bufferSlot, 1, m_buffer.GetAddressOf());
 
     return true;
+  }
+
+  template<typename TBuffer>
+  bool CBuffer<TBuffer>::isValid() const {
+    return m_valid;
   }
 
   template<typename TBuffer>

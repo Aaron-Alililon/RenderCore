@@ -14,7 +14,7 @@ namespace rcore {
 
   public:
     UINT bind() const override;
-    bool valid() const override;
+    bool isValid() const override;
 
     std::vector<TVertex> getVertices() const;
     std::vector<UINT> getIndices() const;
