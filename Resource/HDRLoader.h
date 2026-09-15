@@ -1,11 +1,11 @@
-#ifndef PNG_LOADER_H
-#define PNG_LOADER_H
+#ifndef HDR_LOADER_H
+#define HDR_LOADER_H
 
-#include "Resource/Interface/ISDRLoader.h"
+#include "Resource/Interface/IHDRLoader.h"
 
 namespace rcore {
 
-  class PNGLoader : public ISDRLoader {
+  class HDRLoader : public IHDRLoader {
   public:
     PixelComponent* readTexture(std::string const& path, std::pair<UINT, UINT>* outImageSize) override;
   };

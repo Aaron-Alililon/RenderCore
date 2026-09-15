@@ -1,11 +1,11 @@
 #ifndef TARGA_32_LOADER_H
 #define TARGA_32_LOADER_H
 
-#include "Resource/ITextureLoader.h"
+#include "Resource/Interface/ISDRLoader.h"
 
 namespace rcore {
   
-  class Targa32Loader : public ITextureLoader {
+  class Targa32Loader : public ISDRLoader {
   private:
     struct TargaHeader {
       unsigned char data1[12];
@@ -16,7 +16,7 @@ namespace rcore {
     };
 
   public:
-    unsigned char* readTexture(std::string const& path, std::pair<UINT, UINT>* outImageSize);
+    PixelComponent* readTexture(std::string const& path, std::pair<UINT, UINT>* outImageSize) override;
   };
 
 }

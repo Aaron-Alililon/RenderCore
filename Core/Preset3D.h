@@ -43,9 +43,11 @@ namespace rcore {
     static std::shared_ptr<StaticIndexedVertexBuffer<StandardVertexType>> makeStandardSIVBuffer(Mesh const& mesh, bool keepCPUData = false);
 
     static D3D11_TEXTURE2D_DESC makeStandardTextureDescription();
+    static D3D11_TEXTURE2D_DESC makeHDRTextureDescription();
     static D3D11_TEXTURE2D_DESC makeRenderTargetTextureDescription(UINT width, UINT height);
     static D3D11_SHADER_RESOURCE_VIEW_DESC makeStandardTextureShaderResourceViewDescription();
     static std::pair<D3D11_TEXTURE2D_DESC, D3D11_SHADER_RESOURCE_VIEW_DESC> makeStandardTextureDescriptionPair();
+    static std::pair<D3D11_TEXTURE2D_DESC, D3D11_SHADER_RESOURCE_VIEW_DESC> makeHDRTextureDescriptionPair();
 
     static D3D11_SAMPLER_DESC makeStandardPointSamplerDescription();
     static D3D11_SAMPLER_DESC makeStandardLinearSamplerDescription();

@@ -3,7 +3,7 @@
 
 namespace rcore {
 
-  unsigned char* Targa32Loader::readTexture(std::string const& path, std::pair<UINT, UINT>* outImageSize) {
+  ISDRLoader::PixelComponent* Targa32Loader::readTexture(std::string const& path, std::pair<UINT, UINT>* outImageSize) {
 		int error;
 
 		FILE* filePtr;

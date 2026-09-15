@@ -1,7 +1,7 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
-#include "Resource/ITextureLoader.h"
+#include "Resource/Interface/ITextureLoader.h"
 #include "D3D11/D3D11Device.h"
 
 namespace rcore {

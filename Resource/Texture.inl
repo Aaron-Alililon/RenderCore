@@ -2,6 +2,7 @@
 #define TEXTURE_INL
 
 #include "Resource/Texture.h"
+#include "Lib/stb_image.h"
 
 namespace rcore {
 
@@ -19,7 +20,7 @@ namespace rcore {
 
 		TLoader loader{};
 		std::pair<UINT, UINT> imageSize;
-		unsigned char* data = loader.readTexture(path, &imageSize);
+		auto* data = loader.readTexture(path, &imageSize);
 
 		mutableTextureDescriptor.Width = (width == 0) ? imageSize.first : width;
 		mutableTextureDescriptor.Height = (height == 0) ? imageSize.second : height;
@@ -30,8 +31,9 @@ namespace rcore {
 			return false;
 		}
 
-		UINT rowPitch = (mutableTextureDescriptor.Width * 4) * static_cast<UINT>(sizeof(unsigned char));
+		UINT rowPitch = (mutableTextureDescriptor.Width * 4) * static_cast<UINT>(sizeof(TLoader::PixelComponent));
 		D3D11Device::get().rawContext()->UpdateSubresource(m_texture.Get(), 0, nullptr, data, rowPitch, 0);
+		stbi_image_free(data);
 
 		result = D3D11Device::get().raw()->CreateShaderResourceView(m_texture.Get(), &resourceViewDescriptor, m_textureView.GetAddressOf());
 		if (FAILED(result)) {
