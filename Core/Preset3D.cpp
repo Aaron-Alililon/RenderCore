@@ -223,6 +223,14 @@ namespace rcore {
     return srvDesc;
   }
 
+  D3D11_SHADER_RESOURCE_VIEW_DESC Preset3D::makeHDRTextureShaderResourceViewDescription() {
+    D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc = makeStandardTextureShaderResourceViewDescription();
+
+    srvDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+
+    return srvDesc;
+  }
+
   std::pair<D3D11_TEXTURE2D_DESC, D3D11_SHADER_RESOURCE_VIEW_DESC> Preset3D::makeStandardTextureDescriptionPair() {
     return std::make_pair(
       makeStandardTextureDescription(),
@@ -233,7 +241,7 @@ namespace rcore {
   std::pair<D3D11_TEXTURE2D_DESC, D3D11_SHADER_RESOURCE_VIEW_DESC> Preset3D::makeHDRTextureDescriptionPair() {
     return std::make_pair(
       makeHDRTextureDescription(),
-      makeStandardTextureShaderResourceViewDescription()
+      makeHDRTextureShaderResourceViewDescription()
     );
   }
 
