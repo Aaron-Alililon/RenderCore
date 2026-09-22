@@ -96,10 +96,14 @@ namespace rcore {
 			return false;
 		}
 
-		result = D3D11Device::get().raw()->CreateInputLayout(inputDescription.data(), static_cast<UINT>(inputDescription.size()), vertexShaderBuffer->GetBufferPointer(), vertexShaderBuffer->GetBufferSize(), m_inputLayout.GetAddressOf());
-		if (FAILED(result)) {
-			RCORE_LOG(ERR, "Failed to create input layout from input description");
-			return false;
+		if (inputDescription.size() == 0) {
+			m_inputLayout = nullptr;
+		} else {
+			result = D3D11Device::get().raw()->CreateInputLayout(inputDescription.data(), static_cast<UINT>(inputDescription.size()), vertexShaderBuffer->GetBufferPointer(), vertexShaderBuffer->GetBufferSize(), m_inputLayout.GetAddressOf());
+			if (FAILED(result)) {
+				RCORE_LOG(ERR, "Failed to create input layout from input description");
+				return false;
+			}
 		}
 
 		return true;

@@ -16,7 +16,7 @@ namespace rcore {
 
   public:
     void drawIndexed(MatrixBuffer& matrixBuffer, bool activateMaterial = true);
-    void drawIndexed(bool activateMaterial = true);
+    bool drawIndexed(bool activateMaterial = true);
 
     Transform getTransform() const;
     void setTransform(Transform const& transform);

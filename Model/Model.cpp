@@ -25,10 +25,10 @@ namespace rcore {
     drawIndexed(activateMaterial);
   }
 
-  void Model::drawIndexed(bool activateMaterial) {
+  bool Model::drawIndexed(bool activateMaterial) {
     if (!m_valid) {
       RCORE_LOG(WARN, "Tried accessing invalid model");
-      return;
+      return false;
     }
 
     // Sophisticated renderers will batch models by material and only activate once
@@ -40,6 +40,8 @@ namespace rcore {
 
     D3D11Device::get().rawContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     D3D11Device::get().rawContext()->DrawIndexed(indexCount, 0, 0);
+
+    return true;
   }
 
   Transform Model::getTransform() const {

@@ -45,7 +45,9 @@ namespace rcore {
     static D3D11_TEXTURE2D_DESC makeStandardTextureDescription();
     static D3D11_TEXTURE2D_DESC makeHDRTextureDescription();
     static D3D11_TEXTURE2D_DESC makeRenderTargetTextureDescription(UINT width, UINT height);
-    static D3D11_SHADER_RESOURCE_VIEW_DESC makeStandardTextureShaderResourceViewDescription();
+    static D3D11_TEXTURE2D_DESC makeCubeRenderTargetTextureDescription(UINT width, UINT height);
+    static D3D11_SHADER_RESOURCE_VIEW_DESC makeStandardShaderResourceViewDescription();
+    static D3D11_SHADER_RESOURCE_VIEW_DESC makeCubeShaderResourceViewDescription();
     static D3D11_SHADER_RESOURCE_VIEW_DESC makeHDRTextureShaderResourceViewDescription();
     static std::pair<D3D11_TEXTURE2D_DESC, D3D11_SHADER_RESOURCE_VIEW_DESC> makeStandardTextureDescriptionPair();
     static std::pair<D3D11_TEXTURE2D_DESC, D3D11_SHADER_RESOURCE_VIEW_DESC> makeHDRTextureDescriptionPair();

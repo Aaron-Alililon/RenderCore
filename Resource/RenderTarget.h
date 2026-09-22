@@ -8,24 +8,28 @@ namespace rcore {
   class RenderTarget {
   public:
     RenderTarget() = default;
-    RenderTarget(D3D11_TEXTURE2D_DESC const& textureDescriptor);
+    RenderTarget(D3D11_TEXTURE2D_DESC const& textureDescriptor, D3D11_SHADER_RESOURCE_VIEW_DESC const& srvDescriptor);
 
   public:
     void clearRTV(float r = 0, float g = 0, float b = 0, float a = 0) const;
 
     ID3D11Texture2D* getTexture() const;
     ID3D11ShaderResourceView* getSRV() const;
-    ID3D11RenderTargetView* getRTV() const;
+    ID3D11RenderTargetView* getRTV(int face = 0, int mip = 0) const;
+    std::vector<ID3D11RenderTargetView*> getRTVs() const;
     bool isValid() const;
 
   private:
-    bool createTexture(D3D11_TEXTURE2D_DESC const& textureDescriptor);
+    bool validateDescriptors(D3D11_TEXTURE2D_DESC const& textureDescriptor, D3D11_SHADER_RESOURCE_VIEW_DESC const& srvDescriptor) const;
+    bool createTexture(D3D11_TEXTURE2D_DESC const& textureDescriptor, D3D11_SHADER_RESOURCE_VIEW_DESC const& srvDescriptor);
 
   private:
     bool m_valid = false;
+    UINT m_faces;
+    UINT m_mipLevels;
     Microsoft::WRL::ComPtr<ID3D11Texture2D> m_texture;
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_srv;
-    Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_rtv;
+    std::vector<Microsoft::WRL::ComPtr<ID3D11RenderTargetView>> m_rtvs;
   };
 
 }

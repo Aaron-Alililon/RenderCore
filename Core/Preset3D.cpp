@@ -212,29 +212,48 @@ namespace rcore {
     return desc;
   }
 
-  D3D11_SHADER_RESOURCE_VIEW_DESC Preset3D::makeStandardTextureShaderResourceViewDescription() {
-    D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+  D3D11_TEXTURE2D_DESC Preset3D::makeCubeRenderTargetTextureDescription(UINT width, UINT height) {
+    D3D11_TEXTURE2D_DESC desc = makeRenderTargetTextureDescription(width, height);
 
-    srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-    srvDesc.Texture2D.MostDetailedMip = 0;
-    srvDesc.Texture2D.MipLevels = -1;
+    desc.ArraySize = 6;
+    desc.MiscFlags = D3D11_RESOURCE_MISC_TEXTURECUBE;
 
-    return srvDesc;
+    return desc;
+  }
+
+  D3D11_SHADER_RESOURCE_VIEW_DESC Preset3D::makeStandardShaderResourceViewDescription() {
+    D3D11_SHADER_RESOURCE_VIEW_DESC desc{};
+
+    desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+    desc.Texture2D.MostDetailedMip = 0;
+    desc.Texture2D.MipLevels = -1;
+
+    return desc;
+  }
+
+  D3D11_SHADER_RESOURCE_VIEW_DESC Preset3D::makeCubeShaderResourceViewDescription() {
+    D3D11_SHADER_RESOURCE_VIEW_DESC desc = makeStandardShaderResourceViewDescription();
+
+    desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE;
+    desc.TextureCube.MostDetailedMip = 0;
+    desc.TextureCube.MipLevels = -1;
+
+    return desc;
   }
 
   D3D11_SHADER_RESOURCE_VIEW_DESC Preset3D::makeHDRTextureShaderResourceViewDescription() {
-    D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc = makeStandardTextureShaderResourceViewDescription();
+    D3D11_SHADER_RESOURCE_VIEW_DESC desc = makeStandardShaderResourceViewDescription();
 
-    srvDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+    desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 
-    return srvDesc;
+    return desc;
   }
 
   std::pair<D3D11_TEXTURE2D_DESC, D3D11_SHADER_RESOURCE_VIEW_DESC> Preset3D::makeStandardTextureDescriptionPair() {
     return std::make_pair(
       makeStandardTextureDescription(),
-      makeStandardTextureShaderResourceViewDescription()
+      makeStandardShaderResourceViewDescription()
     );
   }
 
@@ -246,43 +265,43 @@ namespace rcore {
   }
 
   D3D11_SAMPLER_DESC Preset3D::makeStandardPointSamplerDescription() {
-    D3D11_SAMPLER_DESC samplerDesc{};
+    D3D11_SAMPLER_DESC desc{};
 
-    samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
-    samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-    samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-    samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-    samplerDesc.MipLODBias = 0.0f;
-    samplerDesc.MaxAnisotropy = 1;
-    samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
-    samplerDesc.BorderColor[0] = 0;
-    samplerDesc.BorderColor[1] = 0;
-    samplerDesc.BorderColor[2] = 0;
-    samplerDesc.BorderColor[3] = 0;
-    samplerDesc.MinLOD = 0;
-    samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
+    desc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+    desc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+    desc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+    desc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+    desc.MipLODBias = 0.0f;
+    desc.MaxAnisotropy = 1;
+    desc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+    desc.BorderColor[0] = 0;
+    desc.BorderColor[1] = 0;
+    desc.BorderColor[2] = 0;
+    desc.BorderColor[3] = 0;
+    desc.MinLOD = 0;
+    desc.MaxLOD = D3D11_FLOAT32_MAX;
 
-    return samplerDesc;
+    return desc;
   }
 
   D3D11_SAMPLER_DESC Preset3D::makeStandardLinearSamplerDescription() {
-    D3D11_SAMPLER_DESC samplerDesc{};
+    D3D11_SAMPLER_DESC desc{};
 
-    samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-    samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-    samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-    samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-    samplerDesc.MipLODBias = 0.0f;
-    samplerDesc.MaxAnisotropy = 1;
-    samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
-    samplerDesc.BorderColor[0] = 0;
-    samplerDesc.BorderColor[1] = 0;
-    samplerDesc.BorderColor[2] = 0;
-    samplerDesc.BorderColor[3] = 0;
-    samplerDesc.MinLOD = 0;
-    samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
+    desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+    desc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+    desc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+    desc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+    desc.MipLODBias = 0.0f;
+    desc.MaxAnisotropy = 1;
+    desc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+    desc.BorderColor[0] = 0;
+    desc.BorderColor[1] = 0;
+    desc.BorderColor[2] = 0;
+    desc.BorderColor[3] = 0;
+    desc.MinLOD = 0;
+    desc.MaxLOD = D3D11_FLOAT32_MAX;
 
-    return samplerDesc;
+    return desc;
   }
 
 }
