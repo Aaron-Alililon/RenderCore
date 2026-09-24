@@ -216,7 +216,7 @@ namespace rcore {
     D3D11_TEXTURE2D_DESC desc = makeRenderTargetTextureDescription(width, height);
 
     desc.ArraySize = 6;
-    desc.MiscFlags = D3D11_RESOURCE_MISC_TEXTURECUBE;
+    desc.MiscFlags |= D3D11_RESOURCE_MISC_TEXTURECUBE;
 
     return desc;
   }
