@@ -52,7 +52,7 @@ namespace rcore {
 		// || Vertex Shader ||
 		// ===================
 
-		result = D3DCompileFromFile(m_vertexFile.c_str(), nullptr, nullptr, "VSMain", "vs_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, vertexShaderBuffer.GetAddressOf(), errorMessage.GetAddressOf());
+		result = D3DCompileFromFile(m_vertexFile.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, "VSMain", "vs_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, vertexShaderBuffer.GetAddressOf(), errorMessage.GetAddressOf());
 		if (FAILED(result)) {
 			if (errorMessage) {
 				logError(errorMessage.Get());
@@ -68,7 +68,7 @@ namespace rcore {
 		// || Pixel Shader ||
 		// ==================
 
-		result = D3DCompileFromFile(m_pixelFile.c_str(), nullptr, nullptr, "PSMain", "ps_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, pixelShaderBuffer.GetAddressOf(), errorMessage.GetAddressOf());
+		result = D3DCompileFromFile(m_pixelFile.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, "PSMain", "ps_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, pixelShaderBuffer.GetAddressOf(), errorMessage.GetAddressOf());
 		if (FAILED(result)) {
 			if (errorMessage) {
 				logError(errorMessage.Get());
