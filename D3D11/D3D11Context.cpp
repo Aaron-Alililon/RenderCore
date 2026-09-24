@@ -47,7 +47,7 @@ namespace rcore {
 
 		Microsoft::WRL::ComPtr<ID3D11Texture2D> backBuffer;
 		m_swapChain->GetBuffer(0, IID_PPV_ARGS(&backBuffer));
-		D3D11Device::get().rawContext()->ResolveSubresource(backBuffer.Get(), 0, m_msaaRenderTargetTexture.Get(), 0, DXGI_FORMAT_R8G8B8A8_UNORM);
+		D3D11Device::get().rawContext()->ResolveSubresource(backBuffer.Get(), 0, m_msaaRenderTargetTexture.Get(), 0, DXGI_FORMAT_R8G8B8A8_UNORM_SRGB);
 
 		ID3D11RenderTargetView* rawBackBufferRTV = m_renderTargetView.Get();
 		D3D11Device::get().rawContext()->OMSetRenderTargets(1, &rawBackBufferRTV, nullptr);
@@ -171,6 +171,7 @@ namespace rcore {
 
 		D3D11_TEXTURE2D_DESC msaaDesc{};
 		backBufferPtr->GetDesc(&msaaDesc);
+		msaaDesc.Format = DXGI_FORMAT_R8G8B8A8_TYPELESS;
 		msaaDesc.SampleDesc.Count = 4;
 		msaaDesc.SampleDesc.Quality = 0;
 		msaaDesc.BindFlags = D3D11_BIND_RENDER_TARGET;
@@ -181,7 +182,10 @@ namespace rcore {
 			return false;
 		}
 
-		result = D3D11Device::get().raw()->CreateRenderTargetView(m_msaaRenderTargetTexture.Get(), nullptr, &m_msaaRenderTargetView);
+		D3D11_RENDER_TARGET_VIEW_DESC msaaRtvDesc{};
+		msaaRtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+		msaaRtvDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DMS;
+		result = D3D11Device::get().raw()->CreateRenderTargetView(m_msaaRenderTargetTexture.Get(), &msaaRtvDesc, &m_msaaRenderTargetView);
 		if (FAILED(result)) {
 			RCORE_LOG(ERR, "Failed to create msaa render target view");
 			return false;
